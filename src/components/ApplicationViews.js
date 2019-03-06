@@ -1,68 +1,62 @@
 import { Route } from 'react-router-dom'
 import React, { Component } from "react"
-import AnimalList from './animal/Animals'
-import LocationList from './location/Location'
-import EmployeeList from './employee/EmployeeList'
-import OwnersList from "./owners/Owners"
+import Animals from './animal/Animals'
+import Location from './location/Location'
+import Employees from './employee/EmployeeList'
+import Owners from "./owners/Owners"
 
 
-class ApplicationViews extends Component {
-    employeesFromAPI = [
-        { id: 1, name: "Jessica Younker" },
-        { id: 2, name: "Jordan Nelson" },
-        { id: 3, name: "Zoe LeBlanc" },
-        { id: 4, name: "Blaise Roberts" }
-    ]
-
-    locationsFromAPI = [
-        { id: 1, name: "Nashville North", address: "500 Circle Way" },
-        { id: 2, name: "Nashville South", address: "10101 Binary Court" }
-    ]
-
-    animalsFromAPI = [
-        { id: 1, name: "Doodles" },
-        { id: 2, name: "Jack" },
-        { id: 3, name: "Angus" },
-        { id: 4, name: "Henley" },
-        { id: 5, name: "Derkins" },
-        { id: 6, name: "Checkers" }
-    ]
-
-    ownersFromAPI = [
-                { id: 1, name: "Ryan Tanay", phone: "555-1234"},
-                { id: 2, name: "Emma Beaton", phone: "555-1235"},
-                { id: 3, name: "Dani Adkins", phone: "555-1236"},
-                { id: 4, name: "Adam Oswalt", phone: "555-1237"},
-                { id: 5, name: "Fletcher Bangs", phone: "555-0987"},
-                { id: 6, name: "Angela Lee", phone: "555-9876"}
-            ]
-
+export default class ApplicationViews extends Component {
     state = {
-        employees: this.employeesFromAPI,
-        locations: this.locationsFromAPI,
-        animals: this.animalsFromAPI,
-        owners: this.ownersFromAPI
-    }
+        employees: [],
+        locations: [],
+        animals: [],
+        owners: []
+    };
+
+
+
+    componentDidMount(){
+        const newState = {}
+        fetch("http://localhost:5002/employees")
+        .then(employees => employees.json())
+        .then(parsedEmployees => {
+            newState.employees = parsedEmployees;
+            return fetch("http://localhost:5002/locations")
+        }).then(locations => locations.json())
+        .then(parsedLocations => {
+            newState.locations = parsedLocations;
+            return fetch("http://localhost:5002/animals")
+            .then(animals => animals.json())
+        }).then(parsedAnimals => {
+            newState.animals = parsedAnimals;
+            return fetch("http://localhost:5002/owners")
+            .then(owners => owners.json())
+        }).then(parsedOwners => {
+            newState.owners = parsedOwners;
+        this.setState(newState);
+           })
+        }
+
+
 
     render() {
         return (
             <div id="div-container">
 
                 <Route exact path="/" render={(props) => {
-                    return <LocationList locations={this.state.locations} />
+                    return <Location locations={this.state.locations} />
                 }} />
                 <Route path="/animals" render={(props) => {
-                    return <AnimalList animals={this.state.animals} />
+                    return <Animals animals={this.state.animals} />
                 }} />
                 <Route path="/employees" render={(props) => {
-                    return <EmployeeList employees={this.state.employees} />
+                    return <Employees employees={this.state.employees} />
                 }} />
                 <Route path="/owners" render={(props) => {
-                    return <OwnersList owners={this.state.owners} />
+                    return <Owners owners={this.state.owners} />
                 }} />
             </div>
         )
     }
 }
-
-export default ApplicationViews

@@ -17,8 +17,7 @@
 // export default Owners;
 
 import React, { Component } from "react"
-// import "./Kennel.css"
-import "bootstrap/dist/css/bootstrap.min.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
 
 
 class Owners extends Component {
