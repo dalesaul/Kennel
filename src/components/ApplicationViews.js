@@ -4,7 +4,7 @@ import Animals from './animal/Animals'
 import Location from './location/Location'
 import Employees from './employee/EmployeeList'
 import Owners from "./owners/Owners"
-import AnimalAPIManager from "../modules/AnimalManager"
+import AnimalManager from "../modules/AnimalManager"
 import EmployeeManager from '../modules/EmployeeManager'
 import OwnerManager from "../modules/OwnerManager"
 import LocationManager from "../modules/LocationManager"
@@ -19,12 +19,7 @@ export default class ApplicationViews extends Component {
     };
 
     deleteAnimal = id => {
-        return fetch(`http://localhost:5002/animals/${id}`, {
-            method: "DELETE"
-        })
-        .then(e => e.json())
-        .then(() => fetch(`http://localhost:5002/animals`))
-        .then(e => e.json())
+        return AnimalManager.removeAndList(id)
         .then(animals => this.setState({
             animals: animals
         })
@@ -72,7 +67,7 @@ export default class ApplicationViews extends Component {
 
         .then(parsedOwners => {
             newState.owners = parsedOwners;
-            return AnimalAPIManager.getAll()
+            return AnimalManager.getAll()
         })
 
         .then(parsedAnimals => {
