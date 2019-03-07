@@ -17,21 +17,33 @@
 // export default Owners;
 
 import React, { Component } from "react"
-// import "bootstrap/dist/css/bootstrap.min.css"
+import Owner from "./Owner.png"
+import "./Owners.css"
 
 
-class Owners extends Component {
+export default class Owners extends Component {
     render() {
         return (
-            <article>
-              <h1>Owners List</h1>
-              {this.props.owners.map(singleOwner =>{
-                return <p key={singleOwner.id}>{singleOwner.name}: {singleOwner.phone}</p>
-              })}
+            <section className="owners">
+              {
+                this.props.owners.map(singleOwner =>
+                  <div key={singleOwner.id} className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">
+                                <img src={Owner} className="icon--owner" alt="owner Icon"/>
+                                {singleOwner.name}
+                                <button className="btn btn-danger"
+                                    onClick={() => this.props.deleteOwner(singleOwner.id)}>Delete</button>
 
-            </article>
+                            </h5>
+                        </div>
+                  </div>
+                )
+            }
+
+            </section>
         )
     }
 }
 
-export default Owners;
+

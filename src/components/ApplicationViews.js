@@ -14,7 +14,44 @@ export default class ApplicationViews extends Component {
         owners: []
     };
 
+    deleteAnimal = id => {
+        return fetch(`http://localhost:5002/animals/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/animals`))
+        .then(e => e.json())
+        .then(animals => this.setState({
+            animals: animals
+        })
+      )
+    }
 
+    deleteOwner = id => {
+        return fetch(`http://localhost:5002/owners/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/owners`))
+        .then(e => e.json())
+        .then(owners => this.setState({
+            owners: owners
+        })
+      )
+    }
+
+    fireEmployee = id => {
+        return fetch(`http://localhost:5002/employees/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/employees`))
+        .then(e => e.json())
+        .then(employees => this.setState({
+            employees: employees
+        })
+        )
+}
 
     componentDidMount(){
         const newState = {}
@@ -48,13 +85,13 @@ export default class ApplicationViews extends Component {
                     return <Location locations={this.state.locations} />
                 }} />
                 <Route path="/animals" render={(props) => {
-                    return <Animals animals={this.state.animals} />
+                    return <Animals deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
                 }} />
                 <Route path="/employees" render={(props) => {
-                    return <Employees employees={this.state.employees} />
+                    return <Employees fireEmployee={this.fireEmployee} employees={this.state.employees} />
                 }} />
                 <Route path="/owners" render={(props) => {
-                    return <Owners owners={this.state.owners} />
+                    return <Owners deleteOwner={this.deleteOwner} owners={this.state.owners} />
                 }} />
             </div>
         )
