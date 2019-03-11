@@ -8,6 +8,9 @@ import AnimalManager from "../modules/AnimalManager"
 import EmployeeManager from '../modules/EmployeeManager'
 import OwnerManager from "../modules/OwnerManager"
 import LocationManager from "../modules/LocationManager"
+import AnimalDetail from "./animal/animalDetail"
+import EmployeeDetail from "./employee/employeeDetail"
+import OwnerDetail from "./owners/ownerDetails"
 
 
 export default class ApplicationViews extends Component {
@@ -26,31 +29,21 @@ export default class ApplicationViews extends Component {
       )
     }
 
-    deleteOwner = id => {
-        return fetch(`http://localhost:5002/owners/${id}`, {
-            method: "DELETE"
-        })
-        .then(e => e.json())
-        .then(() => fetch(`http://localhost:5002/owners`))
-        .then(e => e.json())
-        .then(owners => this.setState({
-            owners: owners
-        })
-      )
-    }
-
     fireEmployee = id => {
-        return fetch(`http://localhost:5002/employees/${id}`, {
-            method: "DELETE"
-        })
-        .then(e => e.json())
-        .then(() => fetch(`http://localhost:5002/employees`))
-        .then(e => e.json())
-        .then(employees => this.setState({
+        return EmployeeManager.removeAndList(id)
+        .then(employees => this.setState( {
             employees: employees
         })
         )
-}
+    }
+
+    deleteOwner = id => {
+        return OwnerManager.removeAndList(id)
+        .then(owners => this.setState( {
+            owners: owners
+        })
+        )
+    }
 
     componentDidMount(){
         const newState = {}
@@ -73,8 +66,8 @@ export default class ApplicationViews extends Component {
         .then(parsedAnimals => {
             newState.animals = parsedAnimals;
             this.setState(newState);
-           })
-        }
+        })
+    }
 
 
 
@@ -85,16 +78,25 @@ export default class ApplicationViews extends Component {
                 <Route exact path="/" render={(props) => {
                     return <Location locations={this.state.locations} />
                 }} />
-                <Route path="/animals" render={(props) => {
-                    return <Animals deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
+                <Route exact path="/animals" render={(props) => {
+                return <Animals animals={this.state.animals} />
                 }} />
-                <Route path="/employees" render={(props) => {
-                    return <Employees fireEmployee={this.fireEmployee} employees={this.state.employees} />
+                <Route path="/animals/:animalId(\d+)" render={(props) => {
+                return <AnimalDetail {...props} deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
                 }} />
-                <Route path="/owners" render={(props) => {
+                <Route exact path="/employees" render={(props) => {
+                    return <Employees employees={this.state.employees} />
+                }} />
+                <Route path="/employees/:employeeId(\d+)" render={(props) => {
+                return <EmployeeDetail {...props} fireEmployee={this.fireEmployee} employees={this.state.employees} />
+                }} />
+                <Route exact path="/owners" render={(props) => {
                     return <Owners deleteOwner={this.deleteOwner} owners={this.state.owners} />
                 }} />
+                <Route path="/owners/:ownerId(\d+)" render={(props) => {
+                return <OwnerDetail {...props} deleteOwner={this.deleteOwner} owners={this.state.owners} />
+                }} />
             </div>
-        )
-    }
+        )}
 }
+

@@ -17,6 +17,7 @@
 // export default Owners;
 
 import React, { Component } from "react"
+import { Link } from "react-router-dom";
 import Owner from "./Owner.png"
 import "./Owners.css"
 
@@ -32,8 +33,7 @@ export default class Owners extends Component {
                             <h5 className="card-title">
                                 <img src={Owner} className="icon--owner" alt="owner Icon"/>
                                 {singleOwner.name}
-                                <button className="btn btn-danger"
-                                    onClick={() => this.props.deleteOwner(singleOwner.id)}>Delete</button>
+                                <Link className="nav-link" to={`/owner/${singleOwner.id}`}>Details</Link>
 
                             </h5>
                         </div>
