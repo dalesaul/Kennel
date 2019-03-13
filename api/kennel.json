@@ -31,24 +31,40 @@
   ],
   "animals": [
     {
-      "id": 1,
-      "name": "Doodles"
-    },
-    {
-      "id": 2,
-      "name": "Jack"
-    },
-    {
-      "id": 5,
-      "name": "Kato"
-    },
-    {
       "id": 6,
-      "name": "Gunner"
+      "name": "Gunner",
+      "breedId": "1",
+      "employeeId": "4"
     },
     {
       "id": 7,
-      "name": "Barkley"
+      "name": "Barkley",
+      "breedId": "2",
+      "employeeId": "4"
+    },
+    {
+      "name": "Sampson",
+      "breed": "Labrador Retriever",
+      "employeedId": 5,
+      "id": 8
+    },
+    {
+      "name": "General Apathy",
+      "breed": "mutt",
+      "employeedId": 1,
+      "id": 9
+    },
+    {
+      "name": "jimi mittens",
+      "breed": "chihuahua",
+      "employeedId": 5,
+      "id": 10
+    },
+    {
+      "name": "jojo",
+      "breed": "mutt",
+      "employeedId": 2,
+      "id": 11
     }
   ],
   "owners": [
@@ -71,6 +87,36 @@
       "id": 4,
       "name": "Adam Oswalt",
       "phone": "555-1237"
+    }
+  ],
+  "breeds": [
+    {
+      "name": "Labradoodle",
+      "id": 1
+    },
+    {
+      "name": "Goldendoodle",
+      "id": 2
+    },
+    {
+      "name": "Boxer",
+      "id": 3
+    },
+    {
+      "name": "Terrier",
+      "id": 4
+    },
+    {
+      "name": "Husky",
+      "id": 5
+    },
+    {
+      "name": "Pittbull",
+      "id": 6
+    },
+    {
+      "name": "Corgi",
+      "id": 7
     }
   ]
 }

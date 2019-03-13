@@ -16,4 +16,15 @@ export default {
     })
     .then(e => e.json())
     .then(this.getAll)
-}}
+},
+
+  post(newAnimal){
+  return fetch(`${remoteURL}/animals`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+      body: JSON.stringify(newAnimal)
+    }).then(data => data.json())
+    }
+}
