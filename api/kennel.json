@@ -33,38 +33,44 @@
     {
       "id": 6,
       "name": "Gunner",
-      "breedId": "1",
-      "employeeId": "4"
+      "breed": "Labradoodle",
+      "employeeId": 4,
+      "ownerId": 5
     },
     {
       "id": 7,
       "name": "Barkley",
-      "breedId": "2",
-      "employeeId": "4"
+      "breed": "Goldendoodle",
+      "employeeId": 4,
+      "ownerId": 5
     },
     {
       "name": "Sampson",
       "breed": "Labrador Retriever",
-      "employeedId": 5,
-      "id": 8
+      "employeeId": 5,
+      "id": 8,
+      "ownerId": 4
     },
     {
       "name": "General Apathy",
       "breed": "mutt",
-      "employeedId": 1,
-      "id": 9
+      "employeeId": 1,
+      "id": 9,
+      "ownerId": 2
     },
     {
       "name": "jimi mittens",
       "breed": "chihuahua",
-      "employeedId": 5,
-      "id": 10
+      "employeeId": 5,
+      "id": 10,
+      "ownerId": 3
     },
     {
+      "id": 11,
       "name": "jojo",
-      "breed": "mutt",
-      "employeedId": 2,
-      "id": 11
+      "breed": "probably a pit mix",
+      "employeeId": 1,
+      "ownerId": 1
     }
   ],
   "owners": [
@@ -87,6 +93,11 @@
       "id": 4,
       "name": "Adam Oswalt",
       "phone": "555-1237"
+    },
+    {
+      "id": 5,
+      "name": "Jennifer Saul",
+      "phone": "555-6969"
     }
   ],
   "breeds": [
@@ -117,6 +128,23 @@
     {
       "name": "Corgi",
       "id": 7
+    }
+  ],
+  "users": [
+    {
+      "email": "mtkennel@here.com",
+      "password": "123456",
+      "id": 3
+    },
+    {
+      "email": "dtkennel@here.com",
+      "password": "098765",
+      "id": 2
+    },
+    {
+      "email": "mgrkennel@here.com",
+      "password": "1337",
+      "id": 1
     }
   ]
 }

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import dog from "./DogIcon.png"
 import "./Animal.css";
+import AnimalCard from "./AnimalCard"
 
-class AnimalList extends Component {
+export default class AnimalList extends Component {
   render() {
     return (
       <React.Fragment>
@@ -20,22 +19,12 @@ class AnimalList extends Component {
         </div>
         <section className="animals">
           {this.props.animals.map(animal => (
-            <div key={animal.id} className="card">
-              <div className="card-body">
-                <h4 className="card-title">
-                  <img src={dog} className="icon--dog" alt="Dog Icon" />
-                  {animal.name}
-                  <Link className="nav-link" to={`/animals/${animal.id}`}>
-                    Details
-                  </Link>
-                </h4>
-              </div>
-            </div>
+            <AnimalCard key={animal.id} animal={animal}  {...this.props} />
           ))}
+
         </section>
       </React.Fragment>
     );
   }
 }
 
-export default AnimalList;

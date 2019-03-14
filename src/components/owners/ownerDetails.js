@@ -6,11 +6,7 @@ import Owner from "./Owner.png"
 
 export default class OwnerDetail extends Component {
     render() {
-        /*
-            Using the route parameter, find the animal that the
-            user clicked on by looking at the `this.props.animals`
-            collection that was passed down from ApplicationViews
-        */
+
         const owner = this.props.owners.find(a => a.id === parseInt(this.props.match.params.ownerId)) || {}
 
         return (

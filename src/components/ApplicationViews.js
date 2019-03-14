@@ -1,18 +1,21 @@
 import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import AnimalDetail from "./animal/animalDetail";
+import AnimalEditForm from "./animal/AnimalEditForm";
 import AnimalForm from "./animal/AnimalForm";
 import AnimalList from "./animal/AnimalList";
 import AnimalManager from "../modules/AnimalManager";
+import UserManager from "./authentication/registration";
 import Employees from "./employee/EmployeeList";
 import EmployeeDetail from "./employee/employeeDetail";
 import EmployeeManager from "../modules/EmployeeManager";
 import Location from "./location/Location";
 import LocationManager from "../modules/LocationManager";
-import Login from './authentication/Login'
+import Login from "./authentication/Login";
 import Owners from "./owners/Owners";
 import OwnerDetail from "./owners/ownerDetails";
 import OwnerManager from "../modules/OwnerManager";
+import Register from "./authentication/registration";
 
 export default class ApplicationViews extends Component {
   state = {
@@ -22,20 +25,19 @@ export default class ApplicationViews extends Component {
     owners: []
   };
 
+  isAuthenticated = () =>
+    sessionStorage.getItem("credentials") !== null ||
+    localStorage.getItem("credentials") !== null;
 
-  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
-
-
-//   isAuthenticated(){
-//       const credentials = sessionStorage.getItem("credentials");
-//         if(credentials !== null){
-//             return true;
-//
-//         }else{
-//             return false;
-//         }
-//     }
-
+  //   isAuthenticated(){
+  //       const credentials = sessionStorage.getItem("credentials");
+  //         if(credentials !== null){
+  //             return true;
+  //
+  //         }else{
+  //             return false;
+  //         }
+  //     }
 
   deleteAnimal = id => {
     return AnimalManager.removeAndList(id).then(animals =>
@@ -54,6 +56,17 @@ export default class ApplicationViews extends Component {
         })
       );
 
+  updateAnimal = editedAnimalObject => {
+    return AnimalManager.put(editedAnimalObject)
+      .then(() => AnimalManager.getAll())
+      .then(animals => {
+        this.setState({
+          animals: animals
+        });
+      });
+  };
+
+  postUser = userObject => UserManager.registerUser(userObject);
 
   fireEmployee = id => {
     return EmployeeManager.removeAndList(id).then(employees =>
@@ -93,13 +106,13 @@ export default class ApplicationViews extends Component {
         newState.animals = parsedAnimals;
         this.setState(newState);
       });
-  };
+  }
 
   render() {
     return (
       <div id="div-container">
         <Route path="/login" component={Login} />
-
+        <Route path="/register" component={Register} />
         <Route
           exact
           path="/"
@@ -111,11 +124,11 @@ export default class ApplicationViews extends Component {
           exact
           path="/animals"
           render={props => {
-              if (this.isAuthenticated()){
-                return <AnimalList {...props} animals={this.state.animals} />
-              } else {
-                  return <Redirect to="/login" />
-              }
+            if (this.isAuthenticated()) {
+              return <AnimalList {...props} animals={this.state.animals} />;
+            } else {
+              return <Redirect to="/login" />;
+            }
           }}
         />
         <Route
@@ -131,6 +144,7 @@ export default class ApplicationViews extends Component {
           }}
         />
         <Route
+          exact
           path="/animals/:animalId(\d+)"
           render={props => {
             return (
@@ -143,15 +157,31 @@ export default class ApplicationViews extends Component {
           }}
         />
         <Route
+          path="/animals/:animalId(\d+)/edit"
+          render={props => {
+            return (
+              <AnimalEditForm
+                {...props}
+                employees={this.state.employees}
+                updateAnimal={this.updateAnimal}
+              />
+            );
+          }}
+        />
+        <Route
           exact
           path="/employees"
           render={props => {
-            if (this.isAuthenticated()){
-                return <Employees employees={this.state.employees} />;
+            if (this.isAuthenticated()) {
+              return (
+                <Employees
+                  employees={this.state.employees}
+                  animals={this.state.animals}
+                />
+              );
             } else {
-                return <Redirect to="/login" />
+              return <Redirect to="/login" />;
             }
-
           }}
         />
         <Route
@@ -170,16 +200,18 @@ export default class ApplicationViews extends Component {
           exact
           path="/owners"
           render={props => {
-            if (this.isAuthenticated()){
-                return (
-                    <Owners
-                      deleteOwner={this.deleteOwner}
-                      owners={this.state.owners}
-                    />)
+            if (this.isAuthenticated()) {
+              return (
+                <Owners
+                  deleteOwner={this.deleteOwner}
+                  owners={this.state.owners}
+                  animals={this.state.animals}
+                />
+              );
             } else {
-                return <Redirect to="/login" />
+              return <Redirect to="/login" />;
             }
-        }}
+          }}
         />
         <Route
           path="/owners/:ownerId(\d+)"
